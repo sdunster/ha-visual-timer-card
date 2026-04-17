@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-04-18
+
+### Fixed
+- Arc circle now renders correctly in Safari and Chrome (was using HTML namespace instead of SVG namespace, causing the progress arc to be invisible).
+- XL size (600px) added.
+- CI pipeline updated to handle cross-platform npm lockfile differences.
+
 ## [0.1.0] - 2026-04-17
 
 ### Added
