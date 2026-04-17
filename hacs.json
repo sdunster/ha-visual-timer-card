@@ -1,5 +1,6 @@
 {
   "name": "Visual Timer Card",
   "render_readme": true,
-  "filename": "ha-visual-timer-card.js"
+  "filename": "ha-visual-timer-card.js",
+  "homeassistant": "2023.4.0"
 }
