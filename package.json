@@ -1,0 +1,52 @@
+{
+  "name": "ha-visual-timer-card",
+  "version": "0.1.0",
+  "description": "A visual circular timer card for Home Assistant that tracks timer entities.",
+  "main": "dist/ha-visual-timer-card.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "hacs",
+    "timer",
+    "custom-card"
+  ],
+  "author": "sdunster",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdunster/ha-visual-timer-card.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sdunster/ha-visual-timer-card/issues"
+  },
+  "homepage": "https://github.com/sdunster/ha-visual-timer-card#readme",
+  "license": "MIT",
+  "dependencies": {
+    "custom-card-helpers": "^1.9.0",
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^8.57.0",
+    "happy-dom": "^20.9.0",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.9.4",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.0"
+  }
+}
