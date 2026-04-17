@@ -16,12 +16,8 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: 'npm'
-      - name: Upgrade npm
-        run: |
-          npm install -g npm@11
-          echo "$(npm config get prefix)/bin" >> $GITHUB_PATH
       - name: Install deps
-        run: npm ci
+        run: npm install
       - name: Run tests
         run: npm test
       - name: Verify build
