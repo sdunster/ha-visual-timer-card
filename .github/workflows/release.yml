@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: 'npm'
-      - name: Upgrade npm
-        run: npm install -g npm@11
+      - name: Enable corepack
+        run: corepack enable
       - name: Install deps
         run: npm ci
       - name: Run tests
