@@ -1,4 +1,4 @@
-export const CARD_VERSION = '0.1.1';
+export const CARD_VERSION = '0.1.2';
 export const CARD_NAME = 'ha-visual-timer-card';
 export const CARD_FRIENDLY_NAME = 'Visual Timer Card';
 

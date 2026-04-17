@@ -1,6 +1,6 @@
 {
   "name": "ha-visual-timer-card",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A visual circular timer card for Home Assistant that tracks timer entities.",
   "main": "dist/ha-visual-timer-card.js",
   "type": "module",
