@@ -7,6 +7,8 @@ The arc starts whole and sweeps down to zero as the timer runs. Remaining time i
 [![Test](https://github.com/sdunster/ha-visual-timer-card/actions/workflows/test.yml/badge.svg)](https://github.com/sdunster/ha-visual-timer-card/actions/workflows/test.yml)
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
 
+![Visual Timer Card showing 33 minutes remaining](docs/screenshot.png)
+
 ## Features
 
 - Big, bold arc using your theme's `--primary-color`
