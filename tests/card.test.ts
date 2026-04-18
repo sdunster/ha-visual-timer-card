@@ -148,6 +148,46 @@ describe('VisualTimerCard rendering', () => {
     card.remove();
   });
 
+  it('renders remaining attribute for a paused timer', async () => {
+    const card = document.createElement('ha-visual-timer-card') as VisualTimerCard;
+    card.setConfig(baseConfig());
+    (card as unknown as { hass: MockHass }).hass = makeHass({
+      state: 'paused',
+      attributes: { duration: '0:10:00', remaining: '0:03:00' },
+    });
+    document.body.appendChild(card);
+    await nextFrame(card as unknown as LitElementLike);
+    const value = card.shadowRoot?.querySelector('.value')?.textContent;
+    const unit = card.shadowRoot?.querySelector('.unit')?.textContent;
+    expect(value).toBe('3');
+    expect(unit).toBe('m');
+    card.remove();
+  });
+
+  it('falls back to duration when paused with no remaining attr', async () => {
+    const card = document.createElement('ha-visual-timer-card') as VisualTimerCard;
+    card.setConfig(baseConfig());
+    (card as unknown as { hass: MockHass }).hass = makeHass({
+      state: 'paused',
+      attributes: { duration: '0:10:00' },
+    });
+    document.body.appendChild(card);
+    await nextFrame(card as unknown as LitElementLike);
+    const value = card.shadowRoot?.querySelector('.value')?.textContent;
+    expect(value).toBe('10');
+    card.remove();
+  });
+
+  it('rejects non-finite flash_duration_minutes', () => {
+    const card = document.createElement('ha-visual-timer-card') as VisualTimerCard;
+    expect(() =>
+      card.setConfig(baseConfig({ flash_duration_minutes: Infinity })),
+    ).toThrow(/non-negative/);
+    expect(() =>
+      card.setConfig(baseConfig({ flash_duration_minutes: NaN })),
+    ).toThrow(/non-negative/);
+  });
+
   it('honours custom completion_text in config', () => {
     const card = document.createElement('ha-visual-timer-card') as VisualTimerCard;
     card.setConfig(baseConfig({ completion_text: 'Ready!' }));

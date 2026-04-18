@@ -11,6 +11,14 @@ export const SIZE_PX: Record<Size, number> = {
   XL: 600,
 };
 
+// Lovelace card "size units" reported by getCardSize() per Size.
+export const CARD_SIZE_UNITS: Record<Size, number> = {
+  S: 2,
+  M: 3,
+  L: 5,
+  XL: 7,
+};
+
 export const DEFAULTS = {
   size: 'M' as Size,
   flash_duration_minutes: 1,
