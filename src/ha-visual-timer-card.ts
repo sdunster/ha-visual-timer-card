@@ -6,6 +6,7 @@ import {
   CARD_NAME,
   CARD_FRIENDLY_NAME,
   CARD_VERSION,
+  CARD_SIZE_UNITS,
   DEFAULTS,
   SIZE_PX,
   TICK_INTERVAL_MS,
@@ -71,7 +72,7 @@ export class VisualTimerCard extends LitElement implements LovelaceCard {
       throw new Error('Entity must be a timer.* entity.');
     }
     const flash = config.flash_duration_minutes;
-    if (flash !== undefined && (typeof flash !== 'number' || flash < 0 || !isFinite(flash))) {
+    if (flash !== undefined && (typeof flash !== 'number' || !Number.isFinite(flash) || flash < 0)) {
       throw new Error('flash_duration_minutes must be a non-negative number.');
     }
     this._config = {
@@ -80,19 +81,15 @@ export class VisualTimerCard extends LitElement implements LovelaceCard {
       flash_duration_minutes: flash ?? DEFAULTS.flash_duration_minutes,
       completion_text: config.completion_text ?? DEFAULTS.completion_text,
     };
+    // Reusing a card with a new entity should not inherit the previous
+    // entity's last state — that could trigger a phantom active->idle flash.
+    this._lastState = undefined;
+    this._stopFlashing();
   }
 
   public getCardSize(): number {
     const size = this._config?.size ?? DEFAULTS.size;
-    if (size === 'S') return 2;
-    if (size === 'L') return 5;
-    if (size === 'XL') return 7;
-    return 3;
-  }
-
-  public override connectedCallback(): void {
-    super.connectedCallback();
-    this._startTicking();
+    return CARD_SIZE_UNITS[size];
   }
 
   public override disconnectedCallback(): void {
@@ -105,9 +102,20 @@ export class VisualTimerCard extends LitElement implements LovelaceCard {
     super.updated(changed);
     if (!this._config || !this.hass) return;
     const stateObj = this._getStateObj();
-    if (!stateObj) return;
+    if (!stateObj) {
+      this._stopTicking();
+      return;
+    }
 
     const currentState = stateObj.state;
+
+    // Only an active timer needs the high-frequency tick — paused/idle/etc.
+    // produce identical output every render.
+    if (currentState === 'active') {
+      this._startTicking();
+    } else {
+      this._stopTicking();
+    }
 
     // Detect active -> idle transition -> start flash
     if (
@@ -129,8 +137,9 @@ export class VisualTimerCard extends LitElement implements LovelaceCard {
   }
 
   private _startTicking(): void {
-    this._stopTicking();
+    if (this._tickInterval !== undefined) return;
     // 4Hz is plenty for a smooth-looking arc while staying easy on the CPU.
+    this._now = Date.now();
     this._tickInterval = window.setInterval(() => {
       this._now = Date.now();
     }, TICK_INTERVAL_MS);
